@@ -13,12 +13,10 @@ export default function App() {
     let stop = false;
     Spicetify.Player.addEventListener("songchange", () => {
       stop = true;
-      stop = false;
       renderFrame();
     });
     Spicetify.Player.addEventListener("songchange", () => {
       stop = true;
-      stop = false;
       renderFrame();
     });
     function sleep(ms: number) {
@@ -57,15 +55,17 @@ export default function App() {
     async function renderFrame() {
       let e = await Spicetify.getAudioData();
       let a = e.segments;
+      stop = false
       // let songn = (Spicetify.Queue.track.contextTrack.metadata.title)
       for (let k = 0; k < a.length-1; k++) {
         let curr_time = Spicetify.Player.getProgressPercent()*e.track.duration
-        // //console.log(a[k].start,curr_time,a[k+1].start,k,songn)
+        // console.log(a[k].start,curr_time,a[k+1].start,k,songn)
         if ( !(curr_time <= a[k+1].start && a[k].start <= curr_time) ){
           k = Bsearch(a,curr_time)
           //console.log(k)
         } 
         if (stop == true) {
+          console.log("LOOK i have stopped")
           break
         } else if (!Spicetify.Player.isPlaying()) {
           await getPromiseFromEvent(Spicetify.Player,"onplaypause")
@@ -74,7 +74,7 @@ export default function App() {
         for (let i = 0; i < 12; i++) {
           let u = bars[i] as HTMLDivElement
           u.style.transition = `all ${a[k].duration * 1000}ms`
-          u.style.height = `${a[k].pitches[i] * (80*normalizeLoudness(a[k].loudness_max))}%`
+          u.style.height = `${(a[k].pitches[i] *60)+(20*normalizeLoudness(a[k].loudness_max))}%`
         }
         await sleep(a[k].duration * 1000);
       }

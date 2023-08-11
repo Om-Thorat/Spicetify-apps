@@ -4,6 +4,6 @@ export function normalizeLoudness(decibels: number): number {
         return (1+a/(1+Math.abs(a))*0.5)
     }
     else{
-        return (0.5 + 0.5*a)
+        return a-0.5
     }
 }

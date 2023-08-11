@@ -40,7 +40,7 @@ export default function App() {
    
           let mid=Math.floor((start + end)/2);
     
-          if (x <= arr[mid].start +arr[mid].duration &&arr[mid].start <= x){console.log(mid);return mid;}
+          if (x <= arr[mid].start +arr[mid].duration &&arr[mid].start <= x){return mid;}
    
           else if (arr[mid].start + arr[mid].duration < x){
                start = mid + 1;
@@ -55,20 +55,20 @@ export default function App() {
     async function renderFrame() {
       let e = await Spicetify.getAudioData();
       let a = e.segments;
-      let songn = (Spicetify.Queue.track.contextTrack.metadata.title)
+      // let songn = (Spicetify.Queue.track.contextTrack.metadata.title)
       for (let k = 0; k < a.length-1; k++) {
         let curr_time = Spicetify.Player.getProgressPercent()*e.track.duration
-        console.log(a[k].start,curr_time,a[k+1].start,k,songn)
+        // //console.log(a[k].start,curr_time,a[k+1].start,k,songn)
         if ( !(curr_time <= a[k+1].start && a[k].start <= curr_time) ){
           k = Bsearch(a,curr_time)
-          console.log(k)
+          //console.log(k)
         } 
         if (stop == true) {
           break
         } else if (!Spicetify.Player.isPlaying()) {
           await getPromiseFromEvent(Spicetify.Player,"onplaypause")
         }
-        console.log("running ...");
+        //console.log("running ...");
         for (let i = 0; i < 12; i++) {
           let u = bars[i] as HTMLDivElement
           u.style.transition = `all ${a[k].duration * 1000}ms`

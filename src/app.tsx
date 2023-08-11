@@ -1,6 +1,7 @@
 import React from "react";
 import "./css/base.css";
 import Bar from "./components/Bar"
+import { normalizeLoudness } from "./utis";
 
 export default function App() {
   React.useEffect(() => {
@@ -52,6 +53,7 @@ export default function App() {
     
       return 0;
   }
+
     async function renderFrame() {
       let e = await Spicetify.getAudioData();
       let a = e.segments;
@@ -72,7 +74,7 @@ export default function App() {
         for (let i = 0; i < 12; i++) {
           let u = bars[i] as HTMLDivElement
           u.style.transition = `all ${a[k].duration * 1000}ms`
-          u.style.height = `${a[k].pitches[i] * 70}%`
+          u.style.height = `${a[k].pitches[i] * (80*normalizeLoudness(a[k].loudness_max))}%`
         }
         await sleep(a[k].duration * 1000);
       }

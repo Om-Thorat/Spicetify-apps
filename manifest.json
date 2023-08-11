@@ -1,0 +1,7 @@
+{
+    "name": "Visualiser",
+    "description": "A Vaguely related to songs bar visualiser",
+    "preview": "Visualiser/Bars.png",
+    "readme": "Visualiser/README.md",
+    "tags": ["Visualiser"]
+}
